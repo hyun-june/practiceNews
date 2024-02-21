@@ -1,0 +1,138 @@
+.head-line{
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+.head-line svg{
+    width: 430px;
+}
+
+.menus{
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-top: 1px solid #ebebeb;
+    border-bottom: 4px double black;
+}
+
+.menus button{
+    border: none;
+    background: none;
+    margin: 5px;
+}
+
+.menus button:hover{
+    background-color: beige;
+}
+
+.news-img-size{
+    max-width: 100%;
+    max-height: 250px;
+}
+
+.news{
+    border-bottom: 2px solid black;
+}
+
+.side-menu {
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0;
+    background-color: #111; 
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s; 
+  }
+  
+  .side-menu-list button {
+    margin-left: 1em;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    background: none;
+    border: none;
+  }
+  
+  .side-menu button:hover {
+    color: #f1f1f1;
+  }
+  
+  .side-menu .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #f1f1f1;
+  }
+  
+  #main {
+    transition: margin-left .5s;
+    padding: 20px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+  .side-menu .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    border: none;
+    background: none;
+  }
+
+  .fas.fa-bars {
+    left: 0;
+    display: none;
+  }
+
+  .search-button {
+    background-color: rgb(86, 123, 149);
+    border: 1px solid rgb(50, 104, 145);
+    color: rgb(255, 255, 255);
+    height: 30px;
+    border-radius: 3px;
+  }
+  #search-input {
+    border: 1px solid rgb(226, 226, 226);
+    border-radius: 3px;
+    height: 30px;
+    width: 8em;
+  }
+  
+  #input-area {
+    display: none;
+  }
+
+  .head-button{
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 24px;
+}
+
+@media screen and (max-width: 63rem) {
+    .fas.fa-bars{
+        display: inline;
+    }
+    .menus {
+      display: none;
+    }
+    .head-button {
+    display: flex;
+    }
+  }
