@@ -19,7 +19,7 @@ const getlatestNews = async() => {
   const response = await fetch(url);
   const data = await response.json();
   newsList = data.articles
-  console.log(data);
+  console.log("news",data);
   render();
 };
 
@@ -31,6 +31,7 @@ const getNewsByCategory = async (event) => {
   const response = await fetch(url);
   const data = await response.json();
   newsList = data.articles;
+  console.log("gory",data);
   render();
 };
 
@@ -39,13 +40,19 @@ const getNewsSearch = async () =>{
   const keyword = searchInput.value.trim();
   console.log(keyword);
   const url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`); //누나 API
-  //const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
   const response = await fetch(url);
   const data = await response.json();
-  newsList = data.articles;
-  console.log(data);
+  const uniqueNews = remove(data.articles);
+  newsList = uniqueNews;
+  console.log("keyword",data);
   render();
-}
+};
+
+const remove = (news) => {
+  return news.filter((article, index, array) => 
+    array.findIndex(a => a.url === article.url) === index
+  );
+};
 
   const render=()=>{
     const noImageurl = 'https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg';
