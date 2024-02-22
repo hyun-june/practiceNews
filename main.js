@@ -13,8 +13,8 @@ searchInput.addEventListener('keypress', function(event) {
 });
 
 const getlatestNews = async() => {
-  //const url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`);
-  const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
+  const url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`);
+  //const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
 
   const response = await fetch(url);
   const data = await response.json();
