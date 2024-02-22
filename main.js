@@ -1,15 +1,49 @@
 const API_KEY = '7193a00c8b994a8da934dcf151157b84';
 let newsList =[];
-const getlatestNews = async() => {
-    const url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`);
-    //const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
+const menus = document.querySelectorAll(".menus button");
+menus.forEach(menu=>menu.addEventListener("click",(event)=>getNewsByCategory(event)));
+const keysearch = document.getElementById("KeywordSearch");
+keysearch.addEventListener("click", (event) => getNewsSearch(event));
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    getNewsSearch();
+  }
+});
 
-    const response = await fetch(url);
-    const data = await response.json();
-    newsList = data.articles
-    render();
-    console.log("ddd", newsList);
+const getlatestNews = async() => {
+  //const url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`);
+  const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
+
+  const response = await fetch(url);
+  const data = await response.json();
+  newsList = data.articles
+  console.log(data);
+  render();
 };
+
+const getNewsByCategory = async (event) => {
+  const category = event.target.textContent.toLowerCase();
+  console.log(category);
+  const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`)
+  const response = await fetch(url);
+  const data = await response.json();
+  newsList = data.articles;
+  render();
+};
+
+const getNewsSearch = async () =>{
+  const searchInput = document.getElementById('search-input');
+  const keyword = searchInput.value.trim();
+  console.log(keyword);
+  const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
+  const response = await fetch(url);
+  const data = await response.json();
+  newsList = data.articles;
+  console.log(data);
+  render();
+}
 
   const render=()=>{
     const noImageurl = 'https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg';
