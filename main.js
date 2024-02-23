@@ -18,19 +18,24 @@ const getNews = async() => {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    if (response.status===200) {
-      if (data.articles.length===0) {
+    if (response.status === 200) {
+      if (data.articles.length === 0) {
         throw new Error("No result for this search");
       }
-    newsList = data.articles;
-    render();
-  } else {
-    throw new Error(data.message);
+      newsList = data.articles;
+      console.log("data", data.articles)
+      console.log("newsList length:", newsList.length);
+      console.log("newsHTML:", newsHTML);
+      render();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch(error) {
+    errorRender(error.message);
   }
- } catch(error){
-  errorRender(error.message);
- }
 };
+
+
 
 const errorRender = (errormessage) =>{
   const errorHTML = `<div class="alert alert-danger" role="alert">
@@ -60,10 +65,10 @@ const getNewsSearch = async () =>{
   url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
   const response = await fetch(url);
   const data = await response.json();
-  const uniqueNews = remove(data.articles);
-  newsList = uniqueNews;
-  render();
-};
+    const uniqueNews = remove(data.articles);
+    newsList = uniqueNews;
+    getNews();
+  };
 
 
 const remove = (news) => {
@@ -72,9 +77,11 @@ const remove = (news) => {
   );
 };
 
+let newsHTML ='';
+
   const render=()=>{
     const noImageurl = 'https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg';
-    const newsHTML = newsList.map(news=>{
+    newsHTML = newsList.map(news=> {
         let description = news.description;
         let imageUrl = news.urlToImage ? news.urlToImage : noImageurl ;
         let sourceName = news.source.name ? news.source.name : 'No Source';
