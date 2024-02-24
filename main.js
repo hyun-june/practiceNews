@@ -12,10 +12,13 @@ searchInput.addEventListener('keypress', function(event) {
   }
 });
 
+
 let url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
 
 const getNews = async() => {
   try {
+    url.searchParams.set("page",page); // => &page=page
+    url.searchParams.set("pageSize",pageSize);
     const response = await fetch(url);
     const data = await response.json();
     if (response.status === 200) {
@@ -23,10 +26,9 @@ const getNews = async() => {
         throw new Error("No result for this search");
       }
       newsList = data.articles;
-      console.log("data", data.articles)
-      console.log("newsList length:", newsList.length);
-      console.log("newsHTML:", newsHTML);
+      totalResults = data.totalResults;
       render();
+      paginationRender();
     } else {
       throw new Error(data.message);
     }
@@ -35,6 +37,47 @@ const getNews = async() => {
   }
 };
 
+let totalResults = 0;
+let page = 1;
+const pageSize = 10;
+const groupSize = 5;
+
+const paginationRender = () => {
+  // totalResult,
+  // Page
+  // Pagesize
+  // groupSize
+  // totalPages
+  const totalPages = Math.ceil(totalResults / pageSize);
+  // pageGroup
+  const pageGroup = Math.ceil(page / groupSize);
+  // lastPage
+  let lastPage = pageGroup * groupSize;
+  // 마지막 페이지 그룹이 그룹사이즈보다 작으면 lastpage = totalpage
+  if(lastPage > totalPages){
+    lastPage = totalPages;
+  }
+
+  // firstPage
+  const firstPage = lastPage - (groupSize - 1)<=0? 1:lastPage - (groupSize - 1);
+  
+  let paginationHTML = ``;
+    paginationHTML += `<li class="page-item ${page <= 1 ? 'disabled' : ''}" onclick="moveToPage(${page - 5 >= 1 ? page - 1 : 1})"><a class="page-link"><i class="fa-solid fa-angles-left"></i></a></li>`;
+    paginationHTML += `<li class="page-item ${page <= 1 ? 'disabled' : ''}" onclick="moveToPage(${page - 1 >= 1 ? page - 1 : 1})"><a class="page-link"><i class="fa-solid fa-angle-left"></i></a></li>`;
+  for(let i = firstPage; i <= lastPage; i++) {
+    paginationHTML += `<li class="page-item ${i===page?`active`:""}" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
+  }
+  
+    paginationHTML += `<li class="page-item ${page === totalPages ? 'disabled' : ''}" onclick="moveToPage(${page + 1})"><a class="page-link"><i class="fa-solid fa-angle-right"></i></a></li>`;
+    paginationHTML += `<li class="page-item ${page === totalPages ? 'disabled' : ''}" onclick="moveToPage(${page + 5})"><a class="page-link"><i class="fa-solid fa-angles-right"></i></a></li>`;
+    document.querySelector(".pagination").innerHTML = paginationHTML;
+};
+
+const moveToPage=(pageNum)=>{
+  console.log("moveToPage",pageNum);
+  page = pageNum;
+  getNews();
+};
 
 
 const errorRender = (errormessage) =>{
@@ -46,28 +89,40 @@ const errorRender = (errormessage) =>{
 };
 
 const getlatestNews = async() => {
-  url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`); //누나 API
-  //url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
+  //url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`); //누나 API
+  url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
   getNews();
 };
 
+const sideMenuButtons = document.querySelectorAll('.side-menu-list button');
+
+sideMenuButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        const category = event.target.textContent.toLowerCase();
+        url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`);
+        getNews();
+    });
+});
+
+
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
-  url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`); //누나 API
-  //url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`)
+  //url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`); //누나 API
+  url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`)
   getNews();
 };
 
 const getNewsSearch = async () =>{
   const searchInput = document.getElementById('search-input');
   const keyword = searchInput.value.trim();
-  url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`); //누나 API
-//url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
+  //url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`); //누나 API
+  url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
   const response = await fetch(url);
   const data = await response.json();
-    const uniqueNews = remove(data.articles);
-    newsList = uniqueNews;
-    getNews();
+  const uniqueNews = remove(data.articles);
+  newsList = uniqueNews;
+  getNews();
+  searchInput.value = '';
   };
 
 
@@ -135,12 +190,26 @@ let newsHTML ='';
   }
 
   const openSearchBox = () => {
-    let inputArea = document.getElementById("input-area");
-    if (inputArea.style.display === "inline") {
-      inputArea.style.display = "none";
-    } else {
-      inputArea.style.display = "inline";
-    }
+    // let inputArea = document.getElementById("input-area");
+    // if (inputArea.style.display === "inline") {
+      // inputArea.style.display = "none";
+    // } else {
+      // inputArea.style.display = "inline";
+    // }
+    getNewsSearch();
   };
 
+  function topFunction() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function bottomFunction(){
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    });
+  }
   

@@ -1,3 +1,9 @@
+body {
+  background-color:  RGB(255, 255, 240);
+  margin: 0;
+  padding: 0;
+}
+
 .head-line{
     margin-top: 1em;
     display: flex;
@@ -36,17 +42,17 @@
 }
 
 .side-menu {
-    height: 100%; 
-    width: 0; 
-    position: fixed; 
-    z-index: 1; 
-    top: 0; 
-    left: 0;
-    background-color: #111; 
-    overflow-x: hidden; 
-    padding-top: 60px; 
-    transition: 0.5s; 
-  }
+  height: 100%;
+  width: 0; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+  opacity: 0.7;
+}
   
   .side-menu-list button {
     margin-left: 1em;
@@ -57,6 +63,7 @@
     transition: 0.3s;
     background: none;
     border: none;
+    padding-top: 20px;
   }
   
   .side-menu button:hover {
@@ -78,15 +85,10 @@
     position: relative;
   }
   
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
-
   .side-menu .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
+    top: -10px;
+    right: 5px;
     font-size: 36px;
     margin-left: 50px;
     border: none;
@@ -98,31 +100,34 @@
     display: none;
   }
 
-  .search-button {
-    background-color: rgb(86, 123, 149);
-    border: 1px solid rgb(50, 104, 145);
-    color: rgb(255, 255, 255);
-    height: 30px;
-    border-radius: 3px;
-  }
   #search-input {
-    border: 1px solid rgb(226, 226, 226);
+    border: none;
+    background: none;
     border-radius: 3px;
     height: 30px;
     width: 8em;
   }
-  
+
   #input-area {
-    display: none;
+    display: inline;
     font-size: 20px;
+    margin-left: 10px;
+    outline: none;
+    float: left;
+    padding: 0px;
   }
 
   #input-area button{
     background: none;
     font-size: 17px;
     height: 30px;
+    border-radius: 10px;
+    
   }
-
+  .searchicon{
+    color: #f9deec;
+    margin-left: 0;
+  }
   .head-button{
     display: flex;
     position: absolute;
@@ -133,32 +138,61 @@
     font-size: 24px;
 }
 
-@media screen and (max-width: 63rem) {
-    .fas.fa-bars{
-        display: inline;
-    }
-    .menus {
-      display: none;
-    }
-    .head-button {
-    display: flex;
-    }
-    #input-area {
-      display: none;
-    }
-  
-    #input-area button{
-      background: none;
-      font-size: 14px;
-      height: 30px;
-    }
-    #search-input {
-      border: 1px solid rgb(226, 226, 226);
-      border-radius: 3px;
-      height: 30px;
-      width: 4em;
-    }
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;} 
+}
+
+@media screen and (max-width: 978px) {
+  .head-line{
+    margin-top: 40px;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .fas.fa-bars {
+    display: inline;
+  }
+  .menus {
+    display: none;
+  }
+  .head-line{
+    margin-top: 45px;
+  }
+  .head-button {
+    display: flex;
+  }
+  #input-area {
+    display: inline;
+  }
+  #input-area button {
+    background: none;
+    font-size: 14px;
+    height: 30px;
+  }
+  #search-input {
+    border: 1px solid rgb(226, 226, 226);
+    border-radius: 3px;
+    height: 30px;
+    width: 4em;
+    margin-right: 10px;
+    background: none;
+  }
+  .head-line {
+    margin-bottom: 10px; 
+  }
+  .head-line svg {
+    width: 300px; 
+  }
+  .news-img-size {
+    max-height: 100px; 
+  }
+  .col-lg-4 {
+    width: 100%; 
+  }
+  .side-menu-list button {
+    font-size: 20px;
+  }
+}
 
 .news h2 {
   font-size: 20px;
@@ -182,5 +216,77 @@
   padding-left: 0px;
   padding-right: 0px;
   width: 250px;
+}
+
+.pagebutton {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  justify-content: center;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li a {
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.pagination li.active a {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.page-item.disabled {
+  display: none;
+}
+
+#scrollToTopBtn {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 20%;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#scrollToTopBtn:hover {
+  background-color: #555;
+}
+
+#scrollTobottomBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 20%;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#scrollTobottomBtn:hover {
+  background-color: #555;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
