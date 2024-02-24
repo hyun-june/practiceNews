@@ -89,8 +89,8 @@ const errorRender = (errormessage) =>{
 };
 
 const getlatestNews = async() => {
-  //url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`); //누나 API
-  url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
+  url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`); //누나 API
+  //url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`);
   getNews();
 };
 
@@ -107,16 +107,16 @@ sideMenuButtons.forEach(button => {
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
-  //url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`); //누나 API
-  url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`)
+  url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`); //누나 API
+  //url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`)
   getNews();
 };
 
 const getNewsSearch = async () =>{
   const searchInput = document.getElementById('search-input');
   const keyword = searchInput.value.trim();
-  //url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`); //누나 API
-  url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
+  url = new URL(`https://praticenews.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`); //누나 API
+  //url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`)
   const response = await fetch(url);
   const data = await response.json();
   const uniqueNews = remove(data.articles);
